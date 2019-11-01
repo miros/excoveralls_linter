@@ -1,18 +1,30 @@
-defmodule ExcoverallsLinter do
-  @moduledoc """
-  Documentation for ExcoverallsLinter.
-  """
+defmodule ExCoverallsLinter do
+  alias ExCoverallsLinter.CoverageTool
+  alias ExCoverallsLinter.SourceFile
+  alias ExCoverallsLinter.CoverageRule
 
-  @doc """
-  Hello world.
+  @type rule_spec :: {CoverageRule.t(), options :: keyword}
 
-  ## Examples
+  @spec run(list(rule_spec)) :: :ok | {:error, errors :: list()}
+  def run(rule_specs) do
+    errors =
+      CoverageTool.get_coverage()
+      |> Enum.filter(&SourceFile.relevant?/1)
+      |> Enum.map(&run_rules(&1, rule_specs))
+      |> List.flatten()
 
-      iex> ExcoverallsLinter.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    case errors do
+      [] -> :ok
+      [_ | _] -> {:error, errors}
+    end
   end
+
+  defp run_rules(%SourceFile{} = _file, []), do: []
+
+  defp run_rules(%SourceFile{} = file, [{rule, options} | other_rules]) do
+    [file |> rule.check(options) |> rule_errors() | run_rules(file, other_rules)]
+  end
+
+  defp rule_errors(:ok), do: []
+  defp rule_errors({:error, error}), do: [error]
 end
