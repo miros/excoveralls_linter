@@ -4,15 +4,17 @@ defmodule Mix.Tasks.Coveralls.Lint do
   @shortdoc "Runs excoveralls and checks coverage"
   @preferred_cli_env :test
 
+  # TODO write integration test
+
   @impl Mix.Task
-  def run(args) do
+  def run(args, exit_function \\ &exit/1) do
     case do_run(args) do
       :ok ->
         Mix.Shell.IO.info("OK")
 
       {:error, errors} ->
         print_errors(errors)
-        exit({:shutdown, 1})
+        exit_function.({:shutdown, 1})
     end
   end
 

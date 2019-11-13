@@ -5,6 +5,8 @@ defmodule ExCoverallsLinter do
 
   @type rule_spec :: {CoverageRule.t(), options :: keyword}
 
+  # TODO unit test this
+
   @spec run(list(rule_spec)) :: :ok | {:error, errors :: list()}
   def run(rule_specs) do
     errors =

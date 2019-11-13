@@ -4,6 +4,7 @@ defmodule ExCoverallsLinter.SourceFile do
   alias ExCoverallsLinter.Lines
   alias ExCoverallsLinter.Line
   alias ExCoverallsLinter.CoverageRatio
+  alias ExCoverallsLinter.LineBlock
 
   @type t :: %__MODULE__{
           name: String.t(),
@@ -12,14 +13,14 @@ defmodule ExCoverallsLinter.SourceFile do
 
   @spec relevant?(t) :: boolean
   def relevant?(%__MODULE__{} = file) do
-    file |> covered_lines() |> Enum.count() > 0
+    file |> relevant_lines() |> Enum.count() > 0
   end
 
-  @spec uncovered_line_blocks(t) :: list(Line.t())
+  @spec uncovered_line_blocks(t) :: list(LineBlock.t())
   def uncovered_line_blocks(%__MODULE__{} = file) do
     file.lines
-    |> Enum.split_while(&Line.covered?/1)
-    |> Enum.filter(&(hd(&1) |> Line.covered?()))
+    |> Enum.chunk_by(&Line.covered?/1)
+    |> Enum.reject(&(hd(&1) |> Line.covered?()))
   end
 
   @spec coverage_ratio(t) :: CoverageRatio.t()

@@ -2,6 +2,8 @@ defmodule ExCoverallsLinter.CoverageTool do
   alias ExCoverallsLinter.SourceFile
   alias ExCoverallsLinter.Lines
 
+  # TODO extract json parsing and unit test this
+
   @spec get_coverage() :: list(SourceFile.t())
   def get_coverage do
     Mix.Task.run("coveralls.json", ["--umbrella", "--output-dir", "./cover"])

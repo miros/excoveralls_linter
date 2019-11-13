@@ -22,7 +22,7 @@ defmodule ExCoverallsLinter.MixProject do
     [
       {:excoveralls, "~> 0.12"},
       {:jason, "~> 1.1"},
-      {:optimus, "~> 0.1.0"},
+      {:optimus, "~> 0.1.9"},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false}
     ]
   end
