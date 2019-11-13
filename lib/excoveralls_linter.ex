@@ -5,12 +5,10 @@ defmodule ExCoverallsLinter do
 
   @type rule_spec :: {CoverageRule.t(), options :: keyword}
 
-  # TODO unit test this
-
   @spec run(list(rule_spec)) :: :ok | {:error, errors :: list()}
-  def run(rule_specs) do
+  def run(rule_specs, coverage_tool \\ CoverageTool) do
     errors =
-      CoverageTool.get_coverage()
+      coverage_tool.get_coverage()
       |> Enum.filter(&SourceFile.relevant?/1)
       |> Enum.map(&run_rules(&1, rule_specs))
       |> List.flatten()
@@ -24,7 +22,8 @@ defmodule ExCoverallsLinter do
   defp run_rules(%SourceFile{} = _file, []), do: []
 
   defp run_rules(%SourceFile{} = file, [{rule, options} | other_rules]) do
-    [file |> rule.check(options) |> rule_errors() | run_rules(file, other_rules)]
+    errors = file |> rule.check(options) |> rule_errors()
+    [errors | run_rules(file, other_rules)]
   end
 
   defp rule_errors(:ok), do: []

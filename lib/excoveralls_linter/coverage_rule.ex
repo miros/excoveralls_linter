@@ -4,5 +4,5 @@ defmodule ExCoverallsLinter.CoverageRule do
 
   @type t :: module
 
-  @callback check(SourceFile.t(), keyword) :: :ok | {:error, RuleError.t()}
+  @callback check(SourceFile.t(), options :: keyword) :: :ok | {:error, RuleError.t()}
 end

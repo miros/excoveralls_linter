@@ -28,16 +28,16 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
 
     assert {:error,
             %RuleError{
-              errors: [
+              reasons: [
                 %CodeBlockError{
-                  lines: [
+                  code_block: [
                     %Lines.Relevant{number: 1},
                     %Lines.Relevant{number: 2},
                     %Lines.Relevant{number: 3}
                   ]
                 },
                 %CodeBlockError{
-                  lines: [
+                  code_block: [
                     %Lines.Relevant{number: 6},
                     %Lines.Relevant{number: 7}
                   ]

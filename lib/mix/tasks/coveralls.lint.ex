@@ -41,6 +41,8 @@ defmodule Mix.Tasks.Coveralls.Lint do
     for error <- errors do
       Mix.Shell.IO.error(to_string(error))
     end
+
+    :ok
   end
 
   defp cli_description do

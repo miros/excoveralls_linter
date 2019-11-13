@@ -23,9 +23,10 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlock do
     end
   end
 
-  defp check_block(lines, max_missed_lines) when length(lines) < max_missed_lines, do: nil
+  defp check_block(code_block, max_missed_lines) when length(code_block) < max_missed_lines,
+    do: nil
 
-  defp check_block(lines, max_missed_lines) do
-    %CodeBlockError{lines: lines, max_missed_lines: max_missed_lines}
+  defp check_block(code_block, max_missed_lines) do
+    %CodeBlockError{code_block: code_block, max_missed_lines: max_missed_lines}
   end
 end
