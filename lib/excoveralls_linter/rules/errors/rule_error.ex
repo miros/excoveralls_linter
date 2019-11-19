@@ -11,7 +11,7 @@ defmodule ExCoverallsLinter.Rules.Errors.RuleError do
 
   @impl Exception
   def message(exc) do
-    "file:#{exc.file} breaks coverage rules reasons:#{Enum.join(exc.reasons, ", ")}"
+    "#{exc.file.name} : #{Enum.join(exc.reasons, ", ")}"
   end
 
   @spec new(SourceFile.t(), term | list()) :: t

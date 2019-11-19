@@ -4,11 +4,14 @@ defmodule Mix.Tasks.Coveralls.Lint do
   @shortdoc "Runs excoveralls and checks coverage"
   @preferred_cli_env :test
 
-  # TODO write integration test
+  # TODO test this
 
   @impl Mix.Task
-  def run(args, exit_function \\ &exit/1) do
-    case do_run(args) do
+  def run(args, options \\ []) do
+    linter = Keyword.get(options, :linter, ExCoverallsLinter)
+    exit_function = Keyword.get(options, :exit_function, &exit/1)
+
+    case do_run(args, linter) do
       :ok ->
         Mix.Shell.IO.info("OK")
 
@@ -18,11 +21,11 @@ defmodule Mix.Tasks.Coveralls.Lint do
     end
   end
 
-  defp do_run(args) do
+  defp do_run(args, linter) do
     args
     |> parse_args()
     |> rule_specs()
-    |> ExCoverallsLinter.run()
+    |> linter.run()
   end
 
   defp parse_args(args) do
@@ -31,9 +34,8 @@ defmodule Mix.Tasks.Coveralls.Lint do
 
   defp rule_specs(%{options: options}) do
     [
-      {ExCoverallsLinter.Rules.MissedFile,
-       [required_coverage: options["required_file_coverage"]]},
-      {ExCoverallsLinter.Rules.MissedCodeBlock, [max_missed_lines: options["max_missed_lines"]]}
+      {ExCoverallsLinter.Rules.MissedFile, [required_coverage: options[:required_file_coverage]]},
+      {ExCoverallsLinter.Rules.MissedCodeBlock, [max_missed_lines: options[:max_missed_lines]]}
     ]
   end
 
@@ -51,14 +53,14 @@ defmodule Mix.Tasks.Coveralls.Lint do
       allow_unknown_args: false,
       parse_double_dash: true,
       options: [
-        date_from: [
+        max_missed_lines: [
           value_name: "MAX_MISSED_LINES",
           long: "--max-missed-lines",
           help: "Report files with more than MAX_MISSED_LINES uncovered lines in a row",
           parser: :integer,
           required: true
         ],
-        date_to: [
+        required_file_coverage: [
           value_name: "REQUIRED_FILE_COVERAGE",
           long: "--required-file-coverage",
           help: "Report files with less than REQUIRED_FILE_COVERAGE",

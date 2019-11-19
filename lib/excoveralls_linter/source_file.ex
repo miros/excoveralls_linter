@@ -18,7 +18,8 @@ defmodule ExCoverallsLinter.SourceFile do
 
   @spec uncovered_line_blocks(t) :: list(CodeBlock.t())
   def uncovered_line_blocks(%__MODULE__{} = file) do
-    file.lines
+    file
+    |> relevant_lines()
     |> Enum.chunk_by(&Line.covered?/1)
     |> Enum.reject(&(hd(&1) |> Line.covered?()))
   end

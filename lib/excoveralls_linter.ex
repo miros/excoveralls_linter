@@ -1,12 +1,13 @@
 defmodule ExCoverallsLinter do
-  alias ExCoverallsLinter.CoverageTool
   alias ExCoverallsLinter.SourceFile
   alias ExCoverallsLinter.CoverageRule
+  alias ExCoverallsLinter.CoverageTool
+  alias ExCoverallsLinter.CoverageTools.Excoveralls
 
   @type rule_spec :: {CoverageRule.t(), options :: keyword}
 
-  @spec run(list(rule_spec)) :: :ok | {:error, errors :: list()}
-  def run(rule_specs, coverage_tool \\ CoverageTool) do
+  @spec run(list(rule_spec), CoverageTool.t()) :: :ok | {:error, errors :: list()}
+  def run(rule_specs, coverage_tool \\ Excoveralls) do
     errors =
       coverage_tool.get_coverage()
       |> Enum.filter(&SourceFile.relevant?/1)

@@ -5,9 +5,10 @@ defmodule ExCoverallsLinterTest do
   alias ExCoverallsLinter.Rules.Errors.RuleError
   alias ExCoverallsLinter.SourceFile
   alias ExCoverallsLinter.Lines
+  alias ExCoverallsLinter.CoverageTool
 
   defmodule FakeCoverageTool do
-    # TODO make behaviour
+    @behaviour CoverageTool
 
     def get_coverage do
       [%SourceFile{name: "some-file", lines: [%Lines.Relevant{}]}]
@@ -42,7 +43,18 @@ defmodule ExCoverallsLinterTest do
              ExCoverallsLinter.run(rule_specs, FakeCoverageTool)
   end
 
+  defmodule CoverageToolWithIrrelevantFile do
+    @behaviour CoverageTool
+
+    def get_coverage do
+      [
+        %SourceFile{name: "irrelevant-file", lines: [%Lines.Irrelevant{}]}
+      ]
+    end
+  end
+
   test "skips all files with no relevant lines" do
-    # TODO finish test
+    rule_specs = [{RuleWithError, []}]
+    assert :ok == ExCoverallsLinter.run(rule_specs, CoverageToolWithIrrelevantFile)
   end
 end

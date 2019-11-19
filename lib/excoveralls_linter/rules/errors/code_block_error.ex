@@ -1,6 +1,5 @@
 defmodule ExCoverallsLinter.Rules.Errors.CodeBlockError do
   alias __MODULE__
-  alias ExCoverallsLinter.Lines
   alias ExCoverallsLinter.CodeBlock
 
   defexception [:code_block, :max_missed_lines]
@@ -17,7 +16,7 @@ defmodule ExCoverallsLinter.Rules.Errors.CodeBlockError do
     total_lines = length(exc.code_block)
 
     "uncovered block of code at lines #{first_line_num}:#{last_line_num} (#{total_lines} lines) " <>
-      "(max: #{exc.max_missed_lines})"
+      "(max:#{exc.max_missed_lines})"
   end
 
   defimpl String.Chars do
