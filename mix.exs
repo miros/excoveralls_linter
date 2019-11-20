@@ -23,7 +23,7 @@ defmodule ExCoverallsLinter.MixProject do
 
   defp deps do
     [
-      {:excoveralls, "~> 0.12"},
+      {:excoveralls, "~> 0.12", only: :test},
       {:jason, "~> 1.1"},
       {:optimus, "~> 0.1.9"},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false}

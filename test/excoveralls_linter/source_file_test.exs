@@ -91,6 +91,19 @@ defmodule ExCoverallsLinter.SourceFileTest do
                [%Lines.Relevant{number: 4}]
              ] = source_file_with(lines) |> SourceFile.uncovered_line_blocks()
     end
+
+    test "ignores irrelevant lines" do
+      lines = [
+        %Lines.Relevant{number: 0, times_covered: 0},
+        %Lines.Irrelevant{number: 1},
+        %Lines.Relevant{number: 2, times_covered: 0}
+      ]
+
+      assert [
+               [%Lines.Relevant{number: 0}],
+               [%Lines.Relevant{number: 2}]
+             ] = source_file_with(lines) |> SourceFile.uncovered_line_blocks()
+    end
   end
 
   def source_file_with(lines), do: %SourceFile{name: "some-file", lines: lines}

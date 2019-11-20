@@ -4,70 +4,45 @@ defmodule Mix.Tasks.Coveralls.Lint do
   @shortdoc "Runs excoveralls and checks coverage"
   @preferred_cli_env :test
 
-  # TODO test this
+  alias Mix.Tasks.Coveralls.Lint.CLI.ArgsParser
 
   @impl Mix.Task
   def run(args, options \\ []) do
-    linter = Keyword.get(options, :linter, ExCoverallsLinter)
-    exit_function = Keyword.get(options, :exit_function, &exit/1)
+    linter_fn = Keyword.get(options, :linter_fn, &ExCoverallsLinter.run/1)
+    exit_fn = Keyword.get(options, :exit_fn, &exit/1)
+    shell_io = Keyword.get(options, :shell_io, Mix.Shell.IO)
 
-    case do_run(args, linter) do
+    case do_run(args, linter_fn) do
       :ok ->
-        Mix.Shell.IO.info("OK")
+        shell_io.info("OK")
+        :ok
 
       {:error, errors} ->
-        print_errors(errors)
-        exit_function.({:shutdown, 1})
+        print_errors(errors, shell_io)
+        exit_fn.({:shutdown, 1})
+        {:error, errors}
     end
   end
 
-  defp do_run(args, linter) do
+  defp do_run(args, linter_fn) do
     args
-    |> parse_args()
+    |> ArgsParser.parse()
     |> rule_specs()
-    |> linter.run()
+    |> linter_fn.()
   end
 
-  defp parse_args(args) do
-    cli_description() |> Optimus.parse!(args)
-  end
-
-  defp rule_specs(%{options: options}) do
+  defp rule_specs(options) do
     [
       {ExCoverallsLinter.Rules.MissedFile, [required_coverage: options[:required_file_coverage]]},
       {ExCoverallsLinter.Rules.MissedCodeBlock, [max_missed_lines: options[:max_missed_lines]]}
     ]
   end
 
-  defp print_errors(errors) do
+  defp print_errors(errors, shell_io) do
     for error <- errors do
-      Mix.Shell.IO.error(to_string(error))
+      shell_io.error(to_string(error))
     end
 
     :ok
-  end
-
-  defp cli_description do
-    Optimus.new!(
-      name: "coveralls.lint",
-      allow_unknown_args: false,
-      parse_double_dash: true,
-      options: [
-        max_missed_lines: [
-          value_name: "MAX_MISSED_LINES",
-          long: "--max-missed-lines",
-          help: "Report files with more than MAX_MISSED_LINES uncovered lines in a row",
-          parser: :integer,
-          required: true
-        ],
-        required_file_coverage: [
-          value_name: "REQUIRED_FILE_COVERAGE",
-          long: "--required-file-coverage",
-          help: "Report files with less than REQUIRED_FILE_COVERAGE",
-          parser: :float,
-          required: true
-        ]
-      ]
-    )
   end
 end

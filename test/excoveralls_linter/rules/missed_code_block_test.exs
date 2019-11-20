@@ -26,23 +26,26 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
 
     assert :ok == MissedCodeBlock.check(source_file, max_missed_lines: 10)
 
-    assert {:error,
-            %RuleError{
-              reasons: [
-                %CodeBlockError{
-                  code_block: [
-                    %Lines.Relevant{number: 1},
-                    %Lines.Relevant{number: 2},
-                    %Lines.Relevant{number: 3}
-                  ]
-                },
-                %CodeBlockError{
-                  code_block: [
-                    %Lines.Relevant{number: 6},
-                    %Lines.Relevant{number: 7}
-                  ]
-                }
-              ]
-            }} = MissedCodeBlock.check(source_file, max_missed_lines: 2)
+    assert {:error, error} = MissedCodeBlock.check(source_file, max_missed_lines: 2)
+
+    assert %RuleError{
+             reasons: [
+               %CodeBlockError{
+                 code_block: [
+                   %Lines.Relevant{number: 1},
+                   %Lines.Relevant{number: 2},
+                   %Lines.Relevant{number: 3}
+                 ]
+               },
+               %CodeBlockError{
+                 code_block: [
+                   %Lines.Relevant{number: 6},
+                   %Lines.Relevant{number: 7}
+                 ]
+               }
+             ]
+           } = error
+
+    assert error |> to_string() |> is_binary()
   end
 end

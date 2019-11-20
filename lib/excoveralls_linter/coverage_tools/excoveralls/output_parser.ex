@@ -2,11 +2,10 @@ defmodule ExCoverallsLinter.CoverageTools.Excoveralls.OutputParser do
   alias ExCoverallsLinter.SourceFile
   alias ExCoverallsLinter.Lines
 
-  # TODO test this
-
   @spec parse(String.t()) :: list(SourceFile.t())
   def parse(data) do
     data
+    |> String.trim()
     |> Jason.decode!()
     |> Map.fetch!("source_files")
     |> Enum.map(&to_source_file/1)
