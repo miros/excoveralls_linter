@@ -17,9 +17,9 @@ defmodule ExCoverallsLinter.CoverageTools.Excoveralls.OutputParserTest do
              %SourceFile{
                name: "some-file",
                lines: [
-                 %Lines.Irrelevant{number: 0, source: "line0"},
-                 %Lines.Relevant{number: 1, times_covered: 100, source: "line1"},
-                 %Lines.Relevant{number: 2, times_covered: 0, source: "line2"}
+                 %Lines.Irrelevant{number: 1, source: "line0"},
+                 %Lines.Relevant{number: 2, times_covered: 100, source: "line1"},
+                 %Lines.Relevant{number: 3, times_covered: 0, source: "line2"}
                ]
              },
              %SourceFile{name: "other-file", lines: []}

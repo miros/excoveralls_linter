@@ -10,17 +10,17 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
   test "returns error when file has uncovered code blocks longer than threshold" do
     source_file = %SourceFile{
       lines: [
-        %Lines.Relevant{number: 0, times_covered: 1},
-        %Lines.Relevant{number: 1, times_covered: 0},
+        %Lines.Relevant{number: 1, times_covered: 1},
         %Lines.Relevant{number: 2, times_covered: 0},
         %Lines.Relevant{number: 3, times_covered: 0},
-        %Lines.Relevant{number: 4, times_covered: 1},
+        %Lines.Relevant{number: 4, times_covered: 0},
         %Lines.Relevant{number: 5, times_covered: 1},
-        %Lines.Relevant{number: 6, times_covered: 0},
+        %Lines.Relevant{number: 6, times_covered: 1},
         %Lines.Relevant{number: 7, times_covered: 0},
-        %Lines.Relevant{number: 8, times_covered: 1},
-        %Lines.Relevant{number: 9, times_covered: 0},
-        %Lines.Relevant{number: 10, times_covered: 1}
+        %Lines.Relevant{number: 8, times_covered: 0},
+        %Lines.Relevant{number: 9, times_covered: 1},
+        %Lines.Relevant{number: 10, times_covered: 0},
+        %Lines.Relevant{number: 11, times_covered: 1}
       ]
     }
 
@@ -32,15 +32,15 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
              reasons: [
                %CodeBlockError{
                  code_block: [
-                   %Lines.Relevant{number: 1},
                    %Lines.Relevant{number: 2},
-                   %Lines.Relevant{number: 3}
+                   %Lines.Relevant{number: 3},
+                   %Lines.Relevant{number: 4}
                  ]
                },
                %CodeBlockError{
                  code_block: [
-                   %Lines.Relevant{number: 6},
-                   %Lines.Relevant{number: 7}
+                   %Lines.Relevant{number: 7},
+                   %Lines.Relevant{number: 8}
                  ]
                }
              ]

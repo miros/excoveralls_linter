@@ -7,17 +7,17 @@ defmodule ExCoverallsLinter.SourceFileTest do
   describe "relevant_lines" do
     test "returns only relevant lines" do
       lines = [
-        %Lines.Relevant{number: 0},
-        %Lines.Irrelevant{number: 1},
-        %Lines.Relevant{number: 2},
-        %Lines.Irrelevant{number: 3},
-        %Lines.Relevant{number: 4}
+        %Lines.Relevant{number: 1},
+        %Lines.Irrelevant{number: 2},
+        %Lines.Relevant{number: 3},
+        %Lines.Irrelevant{number: 4},
+        %Lines.Relevant{number: 5}
       ]
 
       assert [
-               %Lines.Relevant{number: 0},
-               %Lines.Relevant{number: 2},
-               %Lines.Relevant{number: 4}
+               %Lines.Relevant{number: 1},
+               %Lines.Relevant{number: 3},
+               %Lines.Relevant{number: 5}
              ] = source_file_with(lines) |> SourceFile.relevant_lines()
     end
   end
@@ -25,15 +25,15 @@ defmodule ExCoverallsLinter.SourceFileTest do
   describe "covered_lines" do
     test "returns only covered relevant lines" do
       lines = [
-        %Lines.Relevant{number: 0, times_covered: 0},
-        %Lines.Irrelevant{number: 1},
-        %Lines.Relevant{number: 2, times_covered: 1},
-        %Lines.Relevant{number: 3, times_covered: 10}
+        %Lines.Relevant{number: 1, times_covered: 0},
+        %Lines.Irrelevant{number: 2},
+        %Lines.Relevant{number: 3, times_covered: 1},
+        %Lines.Relevant{number: 4, times_covered: 10}
       ]
 
       assert [
-               %Lines.Relevant{number: 2},
-               %Lines.Relevant{number: 3}
+               %Lines.Relevant{number: 3},
+               %Lines.Relevant{number: 4}
              ] = source_file_with(lines) |> SourceFile.covered_lines()
     end
   end
@@ -41,10 +41,10 @@ defmodule ExCoverallsLinter.SourceFileTest do
   describe "coverage_ratio" do
     test "computes coverage ratio of file" do
       lines = [
-        %Lines.Relevant{number: 0, times_covered: 0},
-        %Lines.Irrelevant{number: 1},
-        %Lines.Relevant{number: 2, times_covered: 1},
-        %Lines.Relevant{number: 3, times_covered: 10}
+        %Lines.Relevant{number: 1, times_covered: 0},
+        %Lines.Irrelevant{number: 2},
+        %Lines.Relevant{number: 3, times_covered: 1},
+        %Lines.Relevant{number: 4, times_covered: 10}
       ]
 
       assert_in_delta 0.66, source_file_with(lines) |> SourceFile.coverage_ratio(), 0.01
@@ -78,30 +78,30 @@ defmodule ExCoverallsLinter.SourceFileTest do
   describe "uncovered_line_blocks" do
     test "returns blocks of uncovered consecutive lines" do
       lines = [
-        %Lines.Relevant{number: 0, times_covered: 1},
-        %Lines.Relevant{number: 1, times_covered: 0},
+        %Lines.Relevant{number: 1, times_covered: 1},
         %Lines.Relevant{number: 2, times_covered: 0},
-        %Lines.Relevant{number: 3, times_covered: 1},
-        %Lines.Relevant{number: 4, times_covered: 0},
-        %Lines.Relevant{number: 5, times_covered: 1}
+        %Lines.Relevant{number: 3, times_covered: 0},
+        %Lines.Relevant{number: 4, times_covered: 1},
+        %Lines.Relevant{number: 5, times_covered: 0},
+        %Lines.Relevant{number: 6, times_covered: 1}
       ]
 
       assert [
-               [%Lines.Relevant{number: 1}, %Lines.Relevant{number: 2}],
-               [%Lines.Relevant{number: 4}]
+               [%Lines.Relevant{number: 2}, %Lines.Relevant{number: 3}],
+               [%Lines.Relevant{number: 5}]
              ] = source_file_with(lines) |> SourceFile.uncovered_line_blocks()
     end
 
     test "ignores irrelevant lines" do
       lines = [
-        %Lines.Relevant{number: 0, times_covered: 0},
-        %Lines.Irrelevant{number: 1},
-        %Lines.Relevant{number: 2, times_covered: 0}
+        %Lines.Relevant{number: 1, times_covered: 0},
+        %Lines.Irrelevant{number: 2},
+        %Lines.Relevant{number: 3, times_covered: 0}
       ]
 
       assert [
-               [%Lines.Relevant{number: 0}],
-               [%Lines.Relevant{number: 2}]
+               [%Lines.Relevant{number: 1}],
+               [%Lines.Relevant{number: 3}]
              ] = source_file_with(lines) |> SourceFile.uncovered_line_blocks()
     end
   end

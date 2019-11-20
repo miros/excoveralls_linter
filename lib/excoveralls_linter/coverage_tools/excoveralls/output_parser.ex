@@ -27,10 +27,10 @@ defmodule ExCoverallsLinter.CoverageTools.Excoveralls.OutputParser do
     |> Enum.with_index()
     |> Enum.map(fn
       {{nil = _times_covered, source}, index} ->
-        %Lines.Irrelevant{number: index, source: source}
+        %Lines.Irrelevant{number: index + 1, source: source}
 
       {{times_covered, source}, index} ->
-        %Lines.Relevant{number: index, source: source, times_covered: times_covered}
+        %Lines.Relevant{number: index + 1, source: source, times_covered: times_covered}
     end)
   end
 end
