@@ -4,14 +4,16 @@ defmodule ExCoverallsLinter.MixProject do
   def project do
     [
       app: :excoveralls_linter,
-      version: "0.1.0",
+      version: "0.0.1",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
       dialyzer: [
         flags: [:unmatched_returns, :error_handling, :race_conditions, :underspecs, :unknown]
-      ]
+      ],
+      package: package(),
+      description: description()
     ]
   end
 
@@ -21,12 +23,29 @@ defmodule ExCoverallsLinter.MixProject do
     ]
   end
 
+  defp package do
+    [
+      name: :excoveralls_linter,
+      files: ["lib", "mix.exs", "README*", "LICENSE"],
+      maintainers: ["Miroslav Malkin"],
+      licenses: ["Apache 2.0"],
+      links: %{
+        "GitHub" => "https://github.com/miros/excoveralls_linter"
+      }
+    ]
+  end
+
+  defp description() do
+    "Simple mix task to run excoveralls for coverage linting"
+  end
+
   defp deps do
     [
       {:excoveralls, "~> 0.12", only: :test},
       {:jason, "~> 1.1"},
       {:optimus, "~> 0.1.9"},
-      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
