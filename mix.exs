@@ -4,7 +4,7 @@ defmodule ExCoverallsLinter.MixProject do
   def project do
     [
       app: :excoveralls_linter,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -13,7 +13,8 @@ defmodule ExCoverallsLinter.MixProject do
         flags: [:unmatched_returns, :error_handling, :race_conditions, :underspecs, :unknown]
       ],
       package: package(),
-      description: description()
+      description: description(),
+      preferred_cli_env: ["coveralls.lint": :test]
     ]
   end
 
