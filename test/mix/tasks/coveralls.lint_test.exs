@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Coveralls.LintTest do
     end
 
     assert {:error, _} =
-             Lint.run(["--max-missed-lines=1", "--required-file-coverage=0.9"],
+             Lint.run(["--missed-lines-threshold=1", "--required-file-coverage=0.9"],
                linter_fn: linter_fn,
                exit_fn: exit_fn,
                shell_io: FakeShellIO

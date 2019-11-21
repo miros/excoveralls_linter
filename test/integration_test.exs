@@ -7,7 +7,7 @@ defmodule IntegrationTest do
     capture_io(fn ->
       assert :ok ==
                Mix.Task.run("coveralls.lint", [
-                 "--max-missed-lines=100",
+                 "--missed-lines-threshold=100",
                  "--required-file-coverage=0.0"
                ])
     end)

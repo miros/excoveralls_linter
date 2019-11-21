@@ -5,16 +5,16 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlock do
 
   @behaviour ExCoverallsLinter.CoverageRule
 
-  @type option :: {:max_missed_lines, pos_integer}
+  @type option :: {:missed_lines_threshold, pos_integer}
 
   @impl true
   def check(file, options) do
-    max_missed_lines = Keyword.fetch!(options, :max_missed_lines)
+    missed_lines_threshold = Keyword.fetch!(options, :missed_lines_threshold)
 
     errors =
       file
       |> SourceFile.uncovered_line_blocks()
-      |> Enum.map(&check_block(&1, max_missed_lines))
+      |> Enum.map(&check_block(&1, missed_lines_threshold))
       |> Enum.reject(&is_nil/1)
 
     case errors do
@@ -23,10 +23,11 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlock do
     end
   end
 
-  defp check_block(code_block, max_missed_lines) when length(code_block) < max_missed_lines,
-    do: nil
+  defp check_block(code_block, missed_lines_threshold)
+       when length(code_block) < missed_lines_threshold,
+       do: nil
 
-  defp check_block(code_block, max_missed_lines) do
-    %CodeBlockError{code_block: code_block, max_missed_lines: max_missed_lines}
+  defp check_block(code_block, missed_lines_threshold) do
+    %CodeBlockError{code_block: code_block, missed_lines_threshold: missed_lines_threshold}
   end
 end

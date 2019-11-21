@@ -24,9 +24,9 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
       ]
     }
 
-    assert :ok == MissedCodeBlock.check(source_file, max_missed_lines: 10)
+    assert :ok == MissedCodeBlock.check(source_file, missed_lines_threshold: 10)
 
-    assert {:error, error} = MissedCodeBlock.check(source_file, max_missed_lines: 2)
+    assert {:error, error} = MissedCodeBlock.check(source_file, missed_lines_threshold: 2)
 
     assert %RuleError{
              reasons: [

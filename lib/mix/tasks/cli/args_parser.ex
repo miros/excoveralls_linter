@@ -11,10 +11,10 @@ defmodule Mix.Tasks.Coveralls.Lint.CLI.ArgsParser do
       allow_unknown_args: false,
       parse_double_dash: true,
       options: [
-        max_missed_lines: [
-          value_name: "MAX_MISSED_LINES",
-          long: "--max-missed-lines",
-          help: "Report files with more than MAX_MISSED_LINES uncovered lines in a row",
+        missed_lines_threshold: [
+          value_name: "MISSED_LINES_THRESHOLD",
+          long: "--missed-lines-threshold",
+          help: "Report files with MISSED_LINES_THRESHOLD or more missed lines in a row",
           parser: :integer,
           required: true
         ],
