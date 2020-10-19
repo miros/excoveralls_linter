@@ -4,7 +4,7 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
   alias ExCoverallsLinter.Rules.MissedCodeBlock
   alias ExCoverallsLinter.SourceFile
   alias ExCoverallsLinter.Lines
-  alias ExCoverallsLinter.Rules.Errors.RuleError
+  alias ExCoverallsLinter.Rules.Errors.FileRuleError
   alias ExCoverallsLinter.Rules.Errors.CodeBlockError
 
   test "returns error when file has uncovered code blocks longer than threshold" do
@@ -24,11 +24,11 @@ defmodule ExCoverallsLinter.Rules.MissedCodeBlockTest do
       ]
     }
 
-    assert :ok == MissedCodeBlock.check(source_file, missed_lines_threshold: 10)
+    assert [] == MissedCodeBlock.check([source_file], missed_lines_threshold: 10)
 
-    assert {:error, error} = MissedCodeBlock.check(source_file, missed_lines_threshold: 2)
+    assert [error] = MissedCodeBlock.check([source_file], missed_lines_threshold: 2)
 
-    assert %RuleError{
+    assert %FileRuleError{
              reasons: [
                %CodeBlockError{
                  code_block: [

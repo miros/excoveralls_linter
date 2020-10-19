@@ -24,6 +24,14 @@ defmodule Mix.Tasks.Coveralls.Lint.CLI.ArgsParser do
           help: "Report files with less than REQUIRED_FILE_COVERAGE",
           parser: :float,
           required: true
+        ],
+        required_project_coverage: [
+          value_name: "REQUIRED_PROJECT_COVERAGE",
+          long: "--required-project-coverage",
+          help: "Total required coverage percentage for all files",
+          parser: :float,
+          default: 0.0,
+          required: false
         ]
       ]
     )

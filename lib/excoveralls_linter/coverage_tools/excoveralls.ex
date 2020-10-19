@@ -13,7 +13,10 @@ defmodule ExCoverallsLinter.CoverageTools.Excoveralls do
         []
       end
 
-    Mix.Task.run("coveralls.json", ["--output-dir", "./cover"] ++ umbrella_opts)
+    Mix.Task.run(
+      "coveralls.json",
+      ["--output-dir", "./cover"] ++ umbrella_opts
+    )
 
     File.read!("./cover/excoveralls.json")
     |> OutputParser.parse()

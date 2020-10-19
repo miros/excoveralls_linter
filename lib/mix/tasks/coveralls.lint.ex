@@ -33,6 +33,8 @@ defmodule Mix.Tasks.Coveralls.Lint do
 
   defp rule_specs(options) do
     [
+      {ExCoverallsLinter.Rules.ProjectCoverage,
+       [required_project_coverage: options[:required_project_coverage]]},
       {ExCoverallsLinter.Rules.MissedFile, [required_coverage: options[:required_file_coverage]]},
       {ExCoverallsLinter.Rules.MissedCodeBlock,
        [missed_lines_threshold: options[:missed_lines_threshold]]}

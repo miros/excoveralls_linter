@@ -1,4 +1,4 @@
-defmodule ExCoverallsLinter.Rules.Errors.RuleError do
+defmodule ExCoverallsLinter.Rules.Errors.FileRuleError do
   alias ExCoverallsLinter.SourceFile
   alias __MODULE__
 
@@ -25,6 +25,6 @@ defmodule ExCoverallsLinter.Rules.Errors.RuleError do
   end
 
   defimpl String.Chars do
-    def to_string(exc), do: RuleError.message(exc)
+    def to_string(exc), do: FileRuleError.message(exc)
   end
 end
