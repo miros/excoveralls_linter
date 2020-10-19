@@ -19,7 +19,7 @@ end
 
 defp deps do
   [
-    {:excoveralls_linter, "~> 0.1.0", only: :test}
+    {:excoveralls_linter, "~> 0.1.1", only: :test}
   ]
 end
 ```
