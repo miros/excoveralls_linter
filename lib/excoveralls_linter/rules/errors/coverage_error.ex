@@ -11,8 +11,8 @@ defmodule ExCoverallsLinter.Rules.Errors.CoverageError do
 
   @impl Exception
   def message(exc) do
-    actual = CoverageRatio.format(exc.actual_coverage)
-    required = CoverageRatio.format(exc.required_coverage)
+    actual = CoverageRatio.round(exc.actual_coverage)
+    required = CoverageRatio.round(exc.required_coverage)
 
     "low coverage:#{actual} (required:#{required})"
   end

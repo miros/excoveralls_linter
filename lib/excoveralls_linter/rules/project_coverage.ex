@@ -13,7 +13,7 @@ defmodule ExCoverallsLinter.Rules.ProjectCoverage do
     required_coverage = Keyword.fetch!(options, :required_project_coverage)
     actual_coverage = total_coverage(files)
 
-    if actual_coverage < required_coverage do
+    if CoverageRatio.round(actual_coverage) < CoverageRatio.round(required_coverage) do
       [
         ProjectRuleError.new(%CoverageError{
           actual_coverage: actual_coverage,
