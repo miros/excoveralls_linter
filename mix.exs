@@ -44,7 +44,7 @@ defmodule ExCoverallsLinter.MixProject do
     [
       {:excoveralls, "~> 0.12", only: :test},
       {:jason, "~> 1.1"},
-      {:optimus, "~> 0.1.9"},
+      {:optimus, "~> 0.2.0"},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:earmark, "~> 1.4", only: :dev, runtime: false}

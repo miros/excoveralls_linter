@@ -3,6 +3,7 @@ defmodule IntegrationTest do
 
   import ExUnit.CaptureIO
 
+  @tag runs_coveralls: true
   test "successfully runs command" do
     capture_io(fn ->
       assert :ok ==

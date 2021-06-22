@@ -1,5 +1,7 @@
 # ExcoverallsLinter
 
+Simple mix task for checking coverage per file and finding uncovered consecutive lines
+
 ## Usage
 
 ## mix.exs
@@ -31,7 +33,7 @@ mix coveralls.lint --help
 ```
 
 ```
-mix coveralls.lint --missed-lines-threshold=5 --required-file-coverage=0.8
+mix coveralls.lint --required-project-coverage=0.9 --missed-lines-threshold=5 --required-file-coverage=0.8
 ```
 
 

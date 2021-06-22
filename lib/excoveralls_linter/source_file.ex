@@ -20,7 +20,7 @@ defmodule ExCoverallsLinter.SourceFile do
   @spec covered_lines_count(t) :: pos_integer
   def covered_lines_count(%__MODULE__{} = file), do: file |> covered_lines() |> Enum.count()
 
-  @spec relevant_lines_count(t) :: pos_integer
+  @spec missed_lines_count(t) :: pos_integer
   def missed_lines_count(%__MODULE__{} = file),
     do: relevant_lines_count(file) - covered_lines_count(file)
 
